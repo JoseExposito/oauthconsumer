@@ -36,7 +36,9 @@ static NSString *Boundary = @"-----------------------------------0xCoCoaouTHeBou
 - (NSArray *)parameters {
     NSString *encodedParameters = nil;
     
-	if (![self isMultipart]) {
+    // TODO: review what this is supposed to do, but for now this solves the immediate problem
+	//if (![self isMultipart]) {
+    if ([[self valueForHTTPHeaderField:@"Content-Type"] hasPrefix:@"application/x-www-form-urlencoded"]) {
 		if ([[self HTTPMethod] isEqualToString:@"GET"] || [[self HTTPMethod] isEqualToString:@"DELETE"]) {
 			encodedParameters = [[self URL] query];
 		} else {
